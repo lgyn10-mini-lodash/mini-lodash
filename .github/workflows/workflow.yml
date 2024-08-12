@@ -1,14 +1,10 @@
-# 워크플로우
-name: Pull Request Check
+name: Pull Request Check # 워크플로우
 
-# 워크플로우 실행 트리거
-# 트리거 조건
 on:
-  pull_request:
+  pull_request: # 워크플로우 실행 트리거, 트리거 조건
     types: [opened, synchronize] # PR 생성되거나 업데이트 될 때
 
-# 작업 정의
-jobs:
+jobs: # 작업 정의
   check:
     runs-on: ubuntu-latest # 실행 환경
     permissions: # 권한 설정
