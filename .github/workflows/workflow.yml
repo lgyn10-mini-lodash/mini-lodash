@@ -13,6 +13,8 @@ jobs: # 작업 정의
       - uses: actions/github-script@v7
         with:
           script: | # 스크립트 시작
+            const github = require('@actions/github'); // GitHub API 모듈 가져오기
+
             async function run() {
               const pull_request = context.payload.pull_request; // pull_request 객체 가져오기
 
