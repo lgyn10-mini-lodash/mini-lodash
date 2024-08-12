@@ -25,13 +25,13 @@ jobs: # 작업 정의
               const body = pull_request.body; // PR 본문 가져오기
 
               if (!body) {
-                await github.issues.createComment({
+                await github.rest.issues.createComment({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   issue_number: pull_request.number,
                   body: "해당 PR은 가이드라인을 준수하지 않았음. 때문에 PR을 닫습니다.",
                 });
-                await github.pulls.update({
+                await github.rest.pulls.update({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   pull_number: pull_request.number,
