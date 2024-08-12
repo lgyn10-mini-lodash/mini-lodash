@@ -17,3 +17,4 @@ npm istall lgyn10/mini-lodash
 ```js
 const ml = require('lgyn10/mini-lodash');
 ```
+ 
