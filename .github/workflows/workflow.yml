@@ -13,26 +13,29 @@ jobs: # 작업 정의
       - uses: actions/github-script@v7
         with:
           script: | # 스크립트 시작
-            const pull_request = context.payload.pull_request; // pull_request 객체 가져오기
+            async function run() {
+              const pull_request = context.payload.pull_request; // pull_request 객체 가져오기
 
-            if (pull_request === undefined) {
-              console.log('Could not get pull request information');
-              return; // 종료
+              if (pull_request === undefined) {
+                console.log('Could not get pull request information');
+                return; // 종료
+              }
+
+              const body = pull_request.body; # PR 본문 가져오기
+
+              if(!body) {
+                await github.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: pull_request.number,
+                  body: "해당 PR은 가이드라인을 준수하지 않았음. 때문에 PR을 닫습니다.",
+                });
+                await github.pulls.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: pull_request.number,
+                  state: 'closed',
+                });
+              }
             }
-
-            const body = pull_request.body; # PR 본문 가져오기
-
-            if(!body) {
-              await github.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: pull_request.number,
-                body: "해당 PR은 가이드라인을 준수하지 않았음. 때문에 PR을 닫습니다.",
-              });
-              await github.pulls.update({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: pull_request.number,
-                state: 'closed',
-              });
-            }
+            run();
