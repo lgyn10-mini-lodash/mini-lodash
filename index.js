@@ -1,2 +1,3 @@
-export { take } from './src/take.js';
-export { takeWhile } from './src/takeWhile.js';
+import take from './src/take.js';
+import takeWhile from './src/takeWhile.js';
+export { take, takeWhile };
